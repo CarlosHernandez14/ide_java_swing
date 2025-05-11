@@ -5,6 +5,7 @@
 package com.ide.views;
 
 import com.github.weisj.darklaf.extensions.rsyntaxarea.DarklafRSyntaxTheme;
+import com.ide.utils.Language;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -18,6 +19,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import jnafilechooser.api.JnaFileChooser;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -31,6 +34,7 @@ public class HomeWindow extends javax.swing.JFrame {
     private List<File> openedFiles;
     private File selectedFile;
     
+    private Language selectedLanguage;
     
     /**
      * Creates new form HomeWindow
@@ -41,13 +45,20 @@ public class HomeWindow extends javax.swing.JFrame {
         this.openedFiles = new ArrayList<>();
         this.containerTabbar.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 8));
         
+        // Default language
+        this.radioJava.setSelected(true);
+        this.radioPython.setSelected(false);
+        this.selectedLanguage = Language.JAVA;
+        
+        this.fileTree.setModel(null);
+        
         initCodeEditor();
         
         initTabs();
         
         
         
-    }
+    } 
     
     private void initCodeEditor() {
         
@@ -97,6 +108,7 @@ public class HomeWindow extends javax.swing.JFrame {
         
         if (result == JOptionPane.YES_OPTION) {
             // Save the file updates
+            itemSaveActionPerformed(null);
         }
         
         this.openedFiles.remove(file);
@@ -127,43 +139,129 @@ public class HomeWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        popupOptions = new javax.swing.JPopupMenu();
+        menuLanguage = new javax.swing.JMenu();
+        radioPython = new javax.swing.JRadioButtonMenuItem();
+        radioJava = new javax.swing.JRadioButtonMenuItem();
         containerWindow = new javax.swing.JPanel();
+        containerNavbar = new javax.swing.JPanel();
+        containerElements = new javax.swing.JPanel();
+        btnOptions = new javax.swing.JButton();
+        btnPLAY = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
         containerTabbar = new javax.swing.JPanel();
         containerBody = new javax.swing.JPanel();
         containerSidebar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        fileTree = new javax.swing.JTree();
         jSeparator2 = new javax.swing.JSeparator();
         containerCodeEditor = new javax.swing.JPanel();
         containerTerminal = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabbedPaneTerminal = new javax.swing.JTabbedPane();
         panelOutput = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         itemOpenFile = new javax.swing.JMenuItem();
         itemOpenFolder = new javax.swing.JMenuItem();
         itemSave = new javax.swing.JMenuItem();
 
+        menuLanguage.setText("Convertion Language");
+
+        radioPython.setText("Python");
+        radioPython.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioPythonActionPerformed(evt);
+            }
+        });
+        menuLanguage.add(radioPython);
+
+        radioJava.setSelected(true);
+        radioJava.setText("Java");
+        radioJava.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioJavaActionPerformed(evt);
+            }
+        });
+        menuLanguage.add(radioJava);
+
+        popupOptions.add(menuLanguage);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         containerWindow.setBackground(new java.awt.Color(255, 255, 255));
         containerWindow.setLayout(new javax.swing.BoxLayout(containerWindow, javax.swing.BoxLayout.Y_AXIS));
 
+        containerNavbar.setBackground(new java.awt.Color(79, 78, 78));
+        containerNavbar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        containerNavbar.setPreferredSize(new java.awt.Dimension(814, 50));
+        containerNavbar.setLayout(new java.awt.CardLayout(0, 3));
+
+        containerElements.setBackground(new java.awt.Color(79, 78, 78));
+
+        btnOptions.setBackground(new java.awt.Color(79, 78, 78));
+        btnOptions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/options-icon.png"))); // NOI18N
+        btnOptions.setBorderPainted(false);
+        btnOptions.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnOptions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOptionsActionPerformed(evt);
+            }
+        });
+
+        btnPLAY.setBackground(new java.awt.Color(79, 78, 78));
+        btnPLAY.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/run-icon.png"))); // NOI18N
+        btnPLAY.setBorderPainted(false);
+        btnPLAY.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
         containerTabbar.setBackground(new java.awt.Color(79, 78, 78));
-        containerTabbar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
-        containerTabbar.setPreferredSize(new java.awt.Dimension(814, 50));
+        containerTabbar.setMaximumSize(new java.awt.Dimension(32767, 50));
+        containerTabbar.setMinimumSize(new java.awt.Dimension(712, 50));
+        containerTabbar.setPreferredSize(new java.awt.Dimension(712, 50));
 
         javax.swing.GroupLayout containerTabbarLayout = new javax.swing.GroupLayout(containerTabbar);
         containerTabbar.setLayout(containerTabbarLayout);
         containerTabbarLayout.setHorizontalGroup(
             containerTabbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 812, Short.MAX_VALUE)
+            .addGap(0, 718, Short.MAX_VALUE)
         );
         containerTabbarLayout.setVerticalGroup(
             containerTabbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 46, Short.MAX_VALUE)
+            .addGap(0, 50, Short.MAX_VALUE)
         );
 
-        containerWindow.add(containerTabbar);
+        jScrollPane2.setViewportView(containerTabbar);
+
+        javax.swing.GroupLayout containerElementsLayout = new javax.swing.GroupLayout(containerElements);
+        containerElements.setLayout(containerElementsLayout);
+        containerElementsLayout.setHorizontalGroup(
+            containerElementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(containerElementsLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(btnPLAY, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnOptions)
+                .addContainerGap())
+        );
+        containerElementsLayout.setVerticalGroup(
+            containerElementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(containerElementsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(containerElementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPLAY, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        containerNavbar.add(containerElements, "card2");
+
+        containerWindow.add(containerNavbar);
 
         containerBody.setBackground(new java.awt.Color(79, 78, 78));
         containerBody.setLayout(new javax.swing.BoxLayout(containerBody, javax.swing.BoxLayout.X_AXIS));
@@ -173,13 +271,27 @@ public class HomeWindow extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(204, 204, 204));
         jLabel1.setText("EXPLORER");
 
+        jScrollPane1.setBorder(null);
+
+        fileTree.setBackground(new java.awt.Color(79, 78, 78));
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Folder");
+        fileTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        fileTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                fileTreeValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(fileTree);
+
         javax.swing.GroupLayout containerSidebarLayout = new javax.swing.GroupLayout(containerSidebar);
         containerSidebar.setLayout(containerSidebarLayout);
         containerSidebarLayout.setHorizontalGroup(
             containerSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(containerSidebarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addGroup(containerSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         containerSidebarLayout.setVerticalGroup(
@@ -187,7 +299,9 @@ public class HomeWindow extends javax.swing.JFrame {
             .addGroup(containerSidebarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(403, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         containerBody.add(containerSidebar);
@@ -209,8 +323,8 @@ public class HomeWindow extends javax.swing.JFrame {
         containerTerminal.setMinimumSize(new java.awt.Dimension(0, 0));
         containerTerminal.setLayout(new java.awt.CardLayout(5, 5));
 
-        jTabbedPane1.setBackground(new java.awt.Color(79, 78, 78));
-        jTabbedPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        tabbedPaneTerminal.setBackground(new java.awt.Color(79, 78, 78));
+        tabbedPaneTerminal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         panelOutput.setBackground(new java.awt.Color(79, 78, 78));
 
@@ -218,16 +332,31 @@ public class HomeWindow extends javax.swing.JFrame {
         panelOutput.setLayout(panelOutputLayout);
         panelOutputLayout.setHorizontalGroup(
             panelOutputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 802, Short.MAX_VALUE)
+            .addGap(0, 808, Short.MAX_VALUE)
         );
         panelOutputLayout.setVerticalGroup(
             panelOutputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 103, Short.MAX_VALUE)
+            .addGap(0, 80, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("OUTPUT", panelOutput);
+        tabbedPaneTerminal.addTab("OUTPUT", panelOutput);
 
-        containerTerminal.add(jTabbedPane1, "card2");
+        jPanel1.setBackground(new java.awt.Color(79, 78, 78));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 808, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+        );
+
+        tabbedPaneTerminal.addTab("CONVERTED", jPanel1);
+
+        containerTerminal.add(tabbedPaneTerminal, "card2");
 
         containerWindow.add(containerTerminal);
 
@@ -246,6 +375,11 @@ public class HomeWindow extends javax.swing.JFrame {
         fileMenu.add(itemOpenFile);
 
         itemOpenFolder.setText("Open Folder");
+        itemOpenFolder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemOpenFolderActionPerformed(evt);
+            }
+        });
         fileMenu.add(itemOpenFolder);
 
         itemSave.setText("Save");
@@ -268,7 +402,7 @@ public class HomeWindow extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(containerWindow, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+            .addComponent(containerWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -330,6 +464,88 @@ public class HomeWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_itemSaveActionPerformed
 
+    private void btnOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOptionsActionPerformed
+        // TODO add your handling code here:
+        
+        this.popupOptions.show(this.btnOptions, 0, this.btnOptions.getHeight());
+        
+        
+    }//GEN-LAST:event_btnOptionsActionPerformed
+
+    private void radioPythonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioPythonActionPerformed
+        // TODO add your handling code here:
+        this.radioJava.setSelected(false);
+        this.selectedLanguage = Language.PYTHON;
+    }//GEN-LAST:event_radioPythonActionPerformed
+
+    private void radioJavaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioJavaActionPerformed
+        // TODO add your handling code here:
+        this.radioPython.setSelected(false);
+        this.selectedLanguage = Language.JAVA;
+    }//GEN-LAST:event_radioJavaActionPerformed
+
+    private void itemOpenFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemOpenFolderActionPerformed
+        // TODO add your handling code here:
+        
+        JnaFileChooser fc = new JnaFileChooser();
+        fc.setMode(JnaFileChooser.Mode.Directories);
+        
+        if (fc.showOpenDialog(this)) {
+            // Get the picked directory
+            File rootDir = fc.getSelectedFile();
+            buildTree(rootDir);
+        }
+        
+    }//GEN-LAST:event_itemOpenFolderActionPerformed
+
+    private void fileTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_fileTreeValueChanged
+        // TODO add your handling code here:
+        // Obtén el nodo seleccionado
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+                fileTree.getLastSelectedPathComponent();
+        if (node == null) return;
+
+        // Recupera el objeto asociado (nuestro File)
+        Object obj = node.getUserObject();
+        if (obj instanceof File) {
+            File sel = (File) obj;
+            // Carga el fichero en el editor
+            if (!(this.openedFiles.contains(sel)))
+                this.openedFiles.add(sel); // Add the new opened file
+            this.selectedFile = sel; // Set it as selected
+            initTabs();
+        }
+        
+    }//GEN-LAST:event_fileTreeValueChanged
+
+    private DefaultMutableTreeNode createNodes(File dir) {
+        DefaultMutableTreeNode node = new DefaultMutableTreeNode(dir.getName());
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    node.add(createNodes(f));              // Subcarpeta
+                } else {
+                    node.add(new DefaultMutableTreeNode(f)); // Fichero
+                }
+            }
+        }
+        return node;
+    }
+    
+    private void buildTree(File rootDir) {
+        DefaultMutableTreeNode rootNode = createNodes(rootDir);
+        DefaultTreeModel model = new DefaultTreeModel(rootNode);
+        
+        this.fileTree.setModel(model);
+
+        // Opcional: mostrar líneas de conexión y expandir la primera rama
+        fileTree.setShowsRootHandles(true);
+        fileTree.setRootVisible(true);
+        fileTree.expandRow(0);
+
+    }
+    
     
     /**
      * @param args the command line arguments
@@ -367,20 +583,32 @@ public class HomeWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOptions;
+    private javax.swing.JButton btnPLAY;
     private javax.swing.JPanel containerBody;
     private javax.swing.JPanel containerCodeEditor;
+    private javax.swing.JPanel containerElements;
+    private javax.swing.JPanel containerNavbar;
     private javax.swing.JPanel containerSidebar;
     private javax.swing.JPanel containerTabbar;
     private javax.swing.JPanel containerTerminal;
     private javax.swing.JPanel containerWindow;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JTree fileTree;
     private javax.swing.JMenuItem itemOpenFile;
     private javax.swing.JMenuItem itemOpenFolder;
     private javax.swing.JMenuItem itemSave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenu menuLanguage;
     private javax.swing.JPanel panelOutput;
+    private javax.swing.JPopupMenu popupOptions;
+    private javax.swing.JRadioButtonMenuItem radioJava;
+    private javax.swing.JRadioButtonMenuItem radioPython;
+    private javax.swing.JTabbedPane tabbedPaneTerminal;
     // End of variables declaration//GEN-END:variables
 }

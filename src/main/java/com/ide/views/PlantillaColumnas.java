@@ -9,10 +9,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 
-/**
- *
- * @author CruzZ
- */
 public class PlantillaColumnas extends FlowLayout
 {
 	private Dimension preferredLayoutSize;

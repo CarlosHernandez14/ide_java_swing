@@ -7,10 +7,6 @@ package com.ide.views;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- *
- * @author CruzZ
- */
 public class RoundedPanel extends JPanel {
     private int cornerRadius;
 
