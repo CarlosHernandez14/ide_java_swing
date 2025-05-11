@@ -10,6 +10,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -159,7 +160,7 @@ public class HomeWindow extends javax.swing.JFrame {
         );
         containerTabbarLayout.setVerticalGroup(
             containerTabbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
+            .addGap(0, 46, Short.MAX_VALUE)
         );
 
         containerWindow.add(containerTabbar);
@@ -221,7 +222,7 @@ public class HomeWindow extends javax.swing.JFrame {
         );
         panelOutputLayout.setVerticalGroup(
             panelOutputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 82, Short.MAX_VALUE)
+            .addGap(0, 103, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("OUTPUT", panelOutput);
@@ -248,6 +249,11 @@ public class HomeWindow extends javax.swing.JFrame {
         fileMenu.add(itemOpenFolder);
 
         itemSave.setText("Save");
+        itemSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemSaveActionPerformed(evt);
+            }
+        });
         fileMenu.add(itemSave);
 
         jMenuBar1.add(fileMenu);
@@ -262,7 +268,7 @@ public class HomeWindow extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(containerWindow, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
+            .addComponent(containerWindow, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
         );
 
         pack();
@@ -283,6 +289,48 @@ public class HomeWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_itemOpenFileActionPerformed
 
+    private void itemSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSaveActionPerformed
+        // TODO add your handling code here:
+        
+        // Save the selected file
+        if (selectedFile == null) {
+            JnaFileChooser fc = new JnaFileChooser();
+            // Mostrar únicamente ficheros (y la caja de texto para teclear un nuevo nombre)
+            fc.setMode(JnaFileChooser.Mode.Files);
+            fc.addFilter("All files", "*");
+            fc.setTitle("Guardar como…");
+            if (fc.showSaveDialog(this)) {
+                File picked = fc.getSelectedFile();
+                // Forzar extensión .java si no la incluye
+                selectedFile = picked;
+                openedFiles.add(selectedFile);
+                
+            } else {
+                // El usuario canceló el diálogo
+                return;
+            }
+        }
+        
+
+        try {
+            // Obtiene el texto del editor
+            String codigo = textArea.getText();
+            // Escribe (sobrescribe) el fichero en UTF-8
+            Files.write(selectedFile.toPath(), codigo.getBytes(StandardCharsets.UTF_8));
+            JOptionPane.showMessageDialog(this, "Archivo guardado correctamente.", 
+                                          "Info", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, 
+                "Error al guardar el archivo:\n" + ex.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(HomeWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        initTabs();
+        
+    }//GEN-LAST:event_itemSaveActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
